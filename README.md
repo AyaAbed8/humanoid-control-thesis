@@ -1,6 +1,6 @@
 # Humanoid balance control
 
-Imperial College London MSc project: simulation-based evaluation of model-based and learning-augmented humanoid balance control.
+Imperial College London MSc project: simulation-based evaluation of model-based and learning-augmented humanoid balance control. This is a solution to MathWorks MATLAB and Simulink Challenge [Project 170: Simulation-Based Design of Humanoid Robots](https://github.com/mathworks/MATLAB-Simulink-Challenge-Project-Hub/tree/main/projects/Simulation-Based%20Design%20of%20Humanoid%20Robots).
 
 ## Contents
 
@@ -40,6 +40,32 @@ The three trained agents must be real MAT files, not small LFS pointer text file
 
 The rigidBodyTree has 22 coordinates (six floating-base, four shoulder, twelve leg). Plant x is lateral and y is sagittal. Inherited joint names and validated left-side signs must not be interpreted using anatomical naming alone.
 
+## One-command demonstration
+
+From MATLAB, with the repository root as the current folder, run:
+
+```matlab
+results = run_project_demo();
+```
+
+The demonstration performs four matched 12-second simulations: nominal and a
++150 N lateral push for Controller A and the frozen deterministic RL75 policy.
+It initializes the project, verifies the packaged dependencies, loads the
+pretrained policy, applies the frozen disturbance protocol, classifies both
+responses and plots force-induced lateral torso displacement. Runtime depends
+on the host and Simscape solver performance and may be several minutes.
+
+Expected classification:
+
+| Controller | +150 N lateral push |
+| --- | --- |
+| Controller A | Fell |
+| Controller A + RL75 | Recovered |
+
+The command prints `Demo verification passed` when these outcomes are
+reproduced. The warnings about obsolete `ImportedURDFSupport` paths are known
+model-callback warnings and do not prevent simulation.
+
 ## Inspect/setup the models
 
 ```matlab
@@ -76,6 +102,26 @@ Some analysis wrappers retain historical default input paths. Supply newly gener
 
 Final common disturbance comparisons use the frozen 12-second protocol. Separate nominal actuator follow-ups used longer horizons. Retraining does not guarantee identical learned weights or recovery performance.
 
+## Results
+
+Under the frozen finite-horizon benchmark, Controller A demonstrated
+bidirectional lateral recovery at 100 N. The selected residual policy RL75
+extended the largest tested bidirectionally recovered lateral disturbance to
+185 N. Deploying the same policy with residual torque limits of 5, 10 and
+15 N m produced tested recovery levels of 100, 150 and 185 N, respectively,
+showing that the improvement depended on available residual authority.
+
+![Controller A and RL75 lateral response](<Report Content/Figures/Chapter 4/controller_A_RL75_lateral_response.png>)
+
+![Residual-authority comparison](<Report Content/Figures/Chapter 4/residual_authority_comparison.png>)
+
+The actuator-nonideality study replaced ideal torque delivery on the active
+controlled joints with system-level Motor & Drive components. Its selected
+nominal and disturbed comparisons are provided as representative robustness
+tests rather than hardware or sim-to-real validation.
+
+![Actuator-nonideality disturbance outcomes](<Report Content/Figures/Chapter 5/nonideal_disturbance_outcome_map.png>)
+
 ## Regenerate report figures
 
 After `setup_project`, with report data present:
@@ -91,12 +137,12 @@ Generators read `Report Content/Data/` and write `Report Content/Figures/`. They
 
 ## Verification and release status
 
-This is a local release candidate, not yet published. Candidate verification passed complete A/D-definition equality with the original, 22-coordinate setup, all three selected-policy loaders and all four Chapter 3–5 figure generators using relocated report inputs. MAT exports were checked for exact value equality. After folder organization, fresh setup, all three policy loaders, all three main model diagram updates and all four thesis figure generators passed. The actuator-nonideality model subsequently received a presentation-only cleanup that removed disconnected line fragments and unused Constant/converter pairs; its functional actuator connections were compared with the original and its diagram update passed. The models also passed three 0.25-second zero-force startup simulations in the broader staging copy before folder organization. Full-length candidate benchmark reruns and poster-generator reruns have not been performed.
+Release verification passed complete A/D-definition equality with the original, 22-coordinate setup, all three selected-policy loaders and all four Chapter 3–5 figure generators using relocated report inputs. MAT exports were checked for exact value equality. After folder organization, fresh setup, all three policy loaders, all three main model diagram updates and all four thesis figure generators passed. The actuator-nonideality model subsequently received a presentation-only cleanup that removed disconnected line fragments and unused Constant/converter pairs; its functional actuator connections were compared with the original and its diagram update passed. The models also passed three 0.25-second zero-force startup simulations in the broader staging copy before folder organization. The root `run_project_demo` entry point passed its complete four-simulation expected-outcome check. Full benchmark-grid and poster-generator reruns have not been performed after packaging.
 
 Model callbacks still emit warnings for obsolete `ImportedURDFSupport` paths. Startup success does not verify full recovery performance. Tested recovery levels are not proven continuous disturbance limits, and representative nonideal-actuation tests are not hardware/sim-to-real validation.
 
-## Large files and attribution
+## Large files, licence and attribution
 
 Only the three selected trained agents use Git LFS, configured by `.gitattributes`. Models, runtime parameters and compact report inputs remain in ordinary Git. Their locations are unchanged for MATLAB. LFS account availability/storage/download allowances must be checked before publishing; no upload has been performed during local preparation.
 
-The humanoid model, library and geometry inherit MathWorks example resources. Confirm their redistribution terms before public release; no blanket new license is asserted.
+Original project contributions are released under the [BSD 2-Clause License](LICENSE). The humanoid model, library and geometry inherit MathWorks example resources; see [Third-party notices](THIRD_PARTY_NOTICES.md).
