@@ -1,0 +1,5 @@
+ControllerVariant,TrainingBound_Nm,DeploymentBound_Nm,NominalResidualTorqueRMS_Nm,MaximumTestedBidirectionalRecovery_N,FinalActuatorSaturationCaseCount
+Controller A,NaN,0,0,100,2
+RL75 clipped to +/-10 Nm,15,10,1.4469205293386,150,1
+RL10-25 trained at +/-10 Nm,10,10,2.06833498305885,150,0
+RL75 at +/-15 Nm,15,15,2.16782202368121,185,0

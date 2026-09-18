@@ -1,0 +1,5 @@
+ControllerVariant,Plus100N,Minus100N,Plus150N,Minus150N,Plus185N,Minus185N
+Controller A,recovered,recovered,fell,recovered,fell,recovered
+RL75 clipped to +/-10 Nm,recovered,recovered,recovered,recovered,fell,recovered
+RL10-25 trained at +/-10 Nm,recovered,recovered,recovered,recovered,upright_not_recovered,upright_not_recovered
+RL75 at +/-15 Nm,recovered,recovered,recovered,recovered,recovered,recovered

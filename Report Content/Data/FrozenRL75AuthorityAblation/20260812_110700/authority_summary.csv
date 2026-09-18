@@ -1,0 +1,4 @@
+ResidualTorqueLimit_Nm,RecoveredCaseCount,UprightNotRecoveredCaseCount,FallCaseCount,MaximumTestedBidirectionalRecovery_N,PeakResidualTorque_Nm,PeakNormalizedAction,AnyFinalActuatorSaturation
+5,4,0,2,100,5,1,1
+10,5,0,1,150,10,1,1
+15,6,0,0,185,15,1,0

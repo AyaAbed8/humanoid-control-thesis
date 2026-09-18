@@ -1,0 +1,16 @@
+# New simulation/training outputs, not part of the source release
+Codes/Results/
+
+slprj/
+codegen/
+*_ert_rtw/
+*_grt_rtw/
+*.slxc
+*.asv
+*.m~
+*.mldatx
+*.slx.original
+*.slx.autosave
+~$*
+.DS_Store
+Thumbs.db
